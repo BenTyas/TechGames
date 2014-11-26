@@ -5,11 +5,11 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>10.0.0</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{78B76BBF-735A-4010-ADCB-4D66049D3E21}</ProjectGuid>
+    <ProjectGuid>{900BF26C-CEFD-43F0-AB56-9B428F5CDC1C}</ProjectGuid>
     <ProjectTypeGuids>{69878862-DA7D-4DC6-B0A1-50D8FAB4242F};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <OutputType>Exe</OutputType>
-    <RootNamespace>ZombieHipsters</RootNamespace>
-    <AssemblyName>ZombieHipsters</AssemblyName>
+    <RootNamespace>FlappyBird</RootNamespace>
+    <AssemblyName>FlappyBird</AssemblyName>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -34,17 +34,32 @@
     <Reference Include="System.Xml" />
     <Reference Include="System.Core" />
     <Reference Include="Sce.PlayStation.Core" />
+    <Reference Include="Sce.PlayStation.HighLevel.GameEngine2D" />
+    <Reference Include="Sce.PlayStation.HighLevel.UI" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AppMain.cs" />
-    <Compile Include="Player.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ShaderProgram Include="shaders\Simple.fcg" />
-    <ShaderProgram Include="shaders\Simple.vcg" />
+    <Compile Include="Bird.cs" />
+    <Compile Include="Obstacle.cs" />
+    <Compile Include="Background.cs" />
   </ItemGroup>
   <ItemGroup>
     <PsmMetadata Include="app.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Sce\Sce.Psm.CSharp.targets" />
+  <ItemGroup>
+    <Folder Include="shaders\" />
+    <Folder Include="textures\" />
+    <Folder Include="fonts\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ShaderProgram Include="shaders\Texture.fcg" />
+    <ShaderProgram Include="shaders\Texture.vcg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="textures\bottompipe.png" />
+    <Content Include="textures\bird.png" />
+    <Content Include="textures\toppipe.png" />
+    <Content Include="textures\background.png" />
+  </ItemGroup>
 </Project>
