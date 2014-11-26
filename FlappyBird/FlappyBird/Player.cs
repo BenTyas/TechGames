@@ -68,22 +68,26 @@ namespace FlappyBird
 		public void Up(bool down)
 		{
 			if (down)
-			sprite.Position = new Vector2(sprite.Position.X, sprite.Position.Y + 1f);
+			sprite.Position = new Vector2(sprite.Position.X, sprite.Position.Y + 3f);
 		}
 		public void Down(bool down)
 		{
 			if (down)
-			sprite.Position = new Vector2(sprite.Position.X, sprite.Position.Y - 1f);
+			sprite.Position = new Vector2(sprite.Position.X, sprite.Position.Y - 3f);
 		}
 		public void Left(bool down)
 		{
 			if (down)
-			sprite.Position = new Vector2(sprite.Position.X - 1f, sprite.Position.Y);
+			sprite.Position = new Vector2(sprite.Position.X - 3f, sprite.Position.Y);
 		}
 		public void Right(bool down)
 		{
 			if (down)
-			sprite.Position = new Vector2(sprite.Position.X + 1f, sprite.Position.Y);
+			sprite.Position = new Vector2(sprite.Position.X + 3f, sprite.Position.Y);
+		}
+		public Vector2 GetPos()
+		{
+			return sprite.Position;
 		}
 	}
 }

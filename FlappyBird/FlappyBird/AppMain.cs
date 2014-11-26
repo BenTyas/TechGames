@@ -17,11 +17,12 @@ namespace FlappyBird
 		private static Sce.PlayStation.HighLevel.GameEngine2D.Scene 	gameScene;
 		private static Sce.PlayStation.HighLevel.UI.Scene 				uiScene;
 		private static Sce.PlayStation.HighLevel.UI.Label				scoreLabel;
-		
+		//private static Sce.PlayStation.HighLevel.GameEngine2D.Base.Camera2D camara;
 		private static Obstacle[]	obstacles;
 		private static Bird			bird;
-	
-				
+		private static Background background;
+		private static Camera2D cam;
+		
 		public static void Main (string[] args)
 		{
 			Initialize();
@@ -44,7 +45,7 @@ namespace FlappyBird
 			bird.Dispose();
 			foreach(Obstacle obstacle in obstacles)
 				obstacle.Dispose();
-		
+		background.Dispose();
 			
 			Director.Terminate ();
 		}
@@ -57,8 +58,10 @@ namespace FlappyBird
 			
 			//Set game scene
 			gameScene = new Sce.PlayStation.HighLevel.GameEngine2D.Scene();
-			gameScene.Camera.SetViewFromViewport();
+			cam = gameScene.Camera as Camera2D;	
+			cam.SetViewFromWidthAndCenter(1024, new Vector2((float)1024, (float)768) / 2.0f);
 			
+
 			//Set the ui scene.
 			uiScene = new Sce.PlayStation.HighLevel.UI.Scene();
 			Panel panel  = new Panel();
@@ -75,6 +78,7 @@ namespace FlappyBird
 			uiScene.RootWidget.AddChildLast(panel);
 			UISystem.SetScene(uiScene);
 			
+			background = new Background(gameScene);
 			
 			//Create the flappy douche
 			bird = new Bird(gameScene);
@@ -95,6 +99,10 @@ namespace FlappyBird
 			bird.Left(true);
 			if (Input2.GamePad0.Right.Down)
 			bird.Right(true);
+			
+			background.Update(0.0f);
+			
+			cam.SetViewX( new Vector2(Director.Instance.GL.Context.GetViewport().Width*0.5f,0.0f), bird.GetPos());
 			
 			
 			//Determine whether the player tapped the screen
