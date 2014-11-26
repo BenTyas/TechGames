@@ -20,7 +20,7 @@ namespace FlappyBird
 		
 		private static Obstacle[]	obstacles;
 		private static Bird			bird;
-		private static Background	background;
+	
 				
 		public static void Main (string[] args)
 		{
@@ -44,7 +44,7 @@ namespace FlappyBird
 			bird.Dispose();
 			foreach(Obstacle obstacle in obstacles)
 				obstacle.Dispose();
-			background.Dispose();
+		
 			
 			Director.Terminate ();
 		}
@@ -75,16 +75,10 @@ namespace FlappyBird
 			uiScene.RootWidget.AddChildLast(panel);
 			UISystem.SetScene(uiScene);
 			
-			//Create the background.
-			background = new Background(gameScene);
 			
 			//Create the flappy douche
 			bird = new Bird(gameScene);
-			
-			//Create some obstacles.
-			obstacles = new Obstacle[2];
-			obstacles[0] = new Obstacle(Director.Instance.GL.Context.GetViewport().Width*0.5f, gameScene);	
-			obstacles[1] = new Obstacle(Director.Instance.GL.Context.GetViewport().Width, gameScene);
+		
 			
 			//Run the scene.
 			Director.Instance.RunWithScene(gameScene, true);
@@ -92,25 +86,25 @@ namespace FlappyBird
 		
 		public static void Update()
 		{
+			
+			if (Input2.GamePad0.Up.Down)
+			bird.Up(true);
+			if (Input2.GamePad0.Down.Down)
+			bird.Down(true);
+			if (Input2.GamePad0.Left.Down)
+			bird.Left(true);
+			if (Input2.GamePad0.Right.Down)
+			bird.Right(true);
+			
+			
 			//Determine whether the player tapped the screen
 			var touches = Touch.GetData(0);
 			//If tapped, inform the bird.
-			if(touches.Count > 0)
-				bird.Tapped();
 			
-			//Update the bird.
-			bird.Update(0.0f);
 			
-			if(bird.Alive)
-			{
-				//Move the background.
-				background.Update(0.0f);
-							
-				//Update the obstacles.
-				foreach(Obstacle obstacle in obstacles)
-					obstacle.Update(0.0f);
-			}
+					
 		}
 		
 	}
 }
+

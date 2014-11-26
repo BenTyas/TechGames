@@ -32,7 +32,7 @@ namespace FlappyBird
 			sprite	 		= new SpriteUV();
 			sprite 			= new SpriteUV(textureInfo);	
 			sprite.Quad.S 	= textureInfo.TextureSizef;
-			sprite.Position = new Vector2(50.0f,Director.Instance.GL.Context.GetViewport().Height*0.5f);
+			sprite.Position = new Vector2(Director.Instance.GL.Context.GetViewport().Width/2,Director.Instance.GL.Context.GetViewport().Height/2);
 			//sprite.Pivot 	= new Vector2(0.5f,0.5f);
 			angle = 0.0f;
 			rise  = false;
@@ -65,13 +65,25 @@ namespace FlappyBird
 			}
 		}	
 		
-		public void Tapped()
+		public void Up(bool down)
 		{
-			if(!rise)
-			{
-				rise = true;
-				yPositionBeforePush = sprite.Position.Y;
-			}
+			if (down)
+			sprite.Position = new Vector2(sprite.Position.X, sprite.Position.Y + 1f);
+		}
+		public void Down(bool down)
+		{
+			if (down)
+			sprite.Position = new Vector2(sprite.Position.X, sprite.Position.Y - 1f);
+		}
+		public void Left(bool down)
+		{
+			if (down)
+			sprite.Position = new Vector2(sprite.Position.X - 1f, sprite.Position.Y);
+		}
+		public void Right(bool down)
+		{
+			if (down)
+			sprite.Position = new Vector2(sprite.Position.X + 1f, sprite.Position.Y);
 		}
 	}
 }
