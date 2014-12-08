@@ -101,6 +101,11 @@ namespace FlappyBird
 			if (Input2.GamePad0.Right.Down)
 			bird.Right(true);
 			
+			if (Input2.GamePad0.Cross.Down)
+			bullet.Shoot(bird.GetPos());
+			
+			bullet.Update(0.0f);
+			
 			background.Update(0.0f);
 			
 			cam.SetViewX( new Vector2(Director.Instance.GL.Context.GetViewport().Width*0.5f,0.0f), bird.GetPos());

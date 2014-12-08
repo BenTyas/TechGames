@@ -12,25 +12,18 @@ namespace FlappyBird
 		//Private variables.
 		private static SpriteUV 	sprite;
 		private static TextureInfo	textureInfo;
-		private static int			pushAmount = 100;
-		private static float		yPositionBeforePush;
-		private static bool			rise;
-		private static float		angle;
-		private static bool			alive;
+		private static bool shoot;
+		private static Vector2 StartPos;
 		
 		public Bullet (Scene scene)
 		{
-			textureInfo  = new TextureInfo("/Application/textures/bird.png");
+			textureInfo  = new TextureInfo("/Application/textures/bullet.png");
 			
 			sprite	 		= new SpriteUV();
 			sprite 			= new SpriteUV(textureInfo);	
 			sprite.Quad.S 	= textureInfo.TextureSizef;
-			sprite.Position = new Vector2(Director.Instance.GL.Context.GetViewport().Width/2,Director.Instance.GL.Context.GetViewport().Height/2);
-			//sprite.Pivot 	= new Vector2(0.5f,0.5f);
-			angle = 0.0f;
-			rise  = false;
-			alive = true;
-			
+	
+			shoot = false;
 			//Add to the current scene.
 			scene.AddChild(sprite);
 		}
@@ -42,22 +35,27 @@ namespace FlappyBird
 		
 		public void Update(float deltaTime)
 		{			
-			//adjust the push
-			if(rise)
+			if (shoot)
 			{
-				//sprite.Rotate(0.008f);
-				if( (sprite.Position.Y-yPositionBeforePush) < pushAmount)
-					sprite.Position = new Vector2(sprite.Position.X, sprite.Position.Y + 3f);
-				else
-					rise = false;
-			}
-			else
-			{
-				//sprite.Rotate(-0.005f);
-				sprite.Position = new Vector2(sprite.Position.X, sprite.Position.Y - 3);
+				sprite.Position = new Vector2 (sprite.Position.X, sprite.Position.Y + 5);
+				
+				if (sprite.Position.Y > StartPos.Y + 150)
+				{
+					shoot = false;
+					sprite.Position = new Vector2(-10,10);
+				}
 			}
 		}	
 		
+		public void Shoot(Vector2 Pos)
+		{
+			if (!shoot)
+			{
+			StartPos = new Vector2(Pos.X+20,Pos.Y+40);
+			sprite.Position = new Vector2(Pos.X+20,Pos.Y+40);
+			shoot = true;
+			}
+		}
 	}
 }
 

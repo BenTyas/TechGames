@@ -109,3 +109,5 @@ C:\Users\Smurf\Dropbox\ZombieHipsters\FlappyBird\FlappyBird\obj\Debug\shaders\sh
 C:\Users\Smurf\Dropbox\ZombieHipsters\FlappyBird\FlappyBird\obj\Debug\convertedpdb\app.exe.mdb
 C:\Users\Smurf\Dropbox\ZombieHipsters\FlappyBird\FlappyBird\obj\Debug\app.exe
 C:\Users\Smurf\Dropbox\ZombieHipsters\FlappyBird\FlappyBird\obj\Debug\app.pdb
+C:\Users\Smurf\Dropbox\ZombieHipsters\FlappyBird\FlappyBird\bin\Debug\FlappyBird-unsigned\Application\textures\bullet.png
+C:\Users\Smurf\Dropbox\ZombieHipsters\FlappyBird\FlappyBird\bin\Debug\FlappyBird-signed\Application\textures\bullet.png
