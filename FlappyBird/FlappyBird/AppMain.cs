@@ -91,21 +91,21 @@ namespace FlappyBird
 		
 		public static void Update()
 		{
-			
-			if (Input2.GamePad0.Up.Down)
+			if (Input2.GamePad0.Up.Down && bird.GetPos().Y < 744)
 			bird.Up(true);
-			if (Input2.GamePad0.Down.Down)
+			if (Input2.GamePad0.Down.Down && bird.GetPos().Y > 0)
 			bird.Down(true);
-			if (Input2.GamePad0.Left.Down)
-			bird.Left(true);
-			if (Input2.GamePad0.Right.Down)
-			bird.Right(true);
 			
+			if (Input2.GamePad0.Left.Down && bird.GetPos().X > 0)
+			bird.Left(true);
+			if (Input2.GamePad0.Right.Down && bird.GetPos().X < 1238)
+			bird.Right(true);
+					
 			if (Input2.GamePad0.Cross.Down)
 			bullet.Shoot(bird.GetPos());
 			
 			bullet.Update(0.0f);
-			
+			bird.Update(0.0f);			
 			background.Update(0.0f);
 			
 			cam.SetViewX( new Vector2(Director.Instance.GL.Context.GetViewport().Width*0.5f,0.0f), bird.GetPos());
@@ -113,10 +113,16 @@ namespace FlappyBird
 			
 			//Determine whether the player tapped the screen
 			var touches = Touch.GetData(0);
-			//If tapped, inform the bird.
-			
-			
-					
+			//If tapped, inform the bird					
+		}
+		
+		public static bool Collision(Bounds2 box, Bounds2 box2)
+		{
+			if (box.Overlaps(box2))
+		    {	
+				return true;
+			}
+			return false;
 		}
 		
 	}

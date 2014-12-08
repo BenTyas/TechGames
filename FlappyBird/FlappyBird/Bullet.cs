@@ -51,9 +51,9 @@ namespace FlappyBird
 		{
 			if (!shoot)
 			{
-			StartPos = new Vector2(Pos.X+20,Pos.Y+40);
-			sprite.Position = new Vector2(Pos.X+20,Pos.Y+40);
-			shoot = true;
+				StartPos = new Vector2(Pos.X+20,Pos.Y+40);
+				sprite.Position = new Vector2(Pos.X+20,Pos.Y+40);
+				shoot = true;
 			}
 		}
 	}
