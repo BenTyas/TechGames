@@ -24,6 +24,7 @@ namespace FlappyBird
 		private static Background background;
 		private static Camera2D cam;
 		
+		
 		public static void Main (string[] args)
 		{
 			Initialize();
@@ -72,8 +73,8 @@ namespace FlappyBird
 			scoreLabel.HorizontalAlignment = HorizontalAlignment.Center;
 			scoreLabel.VerticalAlignment = VerticalAlignment.Top;
 			scoreLabel.SetPosition(
-				Director.Instance.GL.Context.GetViewport().Width/2 - scoreLabel.Width/2,
-				Director.Instance.GL.Context.GetViewport().Height*0.1f - scoreLabel.Height/2);
+			Director.Instance.GL.Context.GetViewport().Width/2 - scoreLabel.Width/2,
+			Director.Instance.GL.Context.GetViewport().Height*0.1f - scoreLabel.Height/2);
 			scoreLabel.Text = "0";
 			panel.AddChildLast(scoreLabel);
 			uiScene.RootWidget.AddChildLast(panel);
@@ -91,6 +92,10 @@ namespace FlappyBird
 		
 		public static void Update()
 		{
+			
+			var touches = Touch.GetData(0);
+			GamePadData data = GamePad.GetData(0);
+			
 			if (Input2.GamePad0.Up.Down && bird.GetPos().Y < 744)
 			bird.Up(true);
 			if (Input2.GamePad0.Down.Down && bird.GetPos().Y > 0)
@@ -110,10 +115,15 @@ namespace FlappyBird
 			
 			cam.SetViewX( new Vector2(Director.Instance.GL.Context.GetViewport().Width*0.5f,0.0f), bird.GetPos());
 			
+			if (data.AnalogRightX > 0.2f || data.AnalogRightX < -0.2f || data.AnalogRightY > 0.2f || data.AnalogRightY < -0.2f) 
+			{
+				var angleInRadians = FMath.Atan2 (-data.AnalogRightX, -data.AnalogRightY);
+				var angleInRadians2 = FMath.Atan2 (-data.AnalogLeftX, -data.AnalogLeftY);
+				bird.playerRotation = new Vector2 (FMath.Cos (angleInRadians), FMath.Sin (angleInRadians));
+				bird.playerMovement = new Vector2 (FMath.Cos (angleInRadians2), FMath.Sin (angleInRadians2));
+			}
 			
-			//Determine whether the player tapped the screen
-			var touches = Touch.GetData(0);
-			//If tapped, inform the bird					
+							
 		}
 		
 		public static bool Collision(Bounds2 box, Bounds2 box2)

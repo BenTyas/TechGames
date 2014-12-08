@@ -42,9 +42,10 @@ namespace FlappyBird
 				if (sprite.Position.Y > StartPos.Y + 150)
 				{
 					shoot = false;
-					sprite.Position = new Vector2(-10,10);
+					sprite.Position = new Vector2(-500,-500);
 				}
 			}
+			
 		}	
 		
 		public void Shoot(Vector2 Pos)

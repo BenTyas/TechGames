@@ -21,6 +21,8 @@ namespace FlappyBird
 		private Vector2 min;
 		private Vector2 max;
 		private Bounds2 box;
+		public Vector2 playerMovement;
+		public Vector2 playerRotation;
 		
 		public bool Alive { get{return alive;} set{alive = value;} }
 		
@@ -61,6 +63,8 @@ namespace FlappyBird
 			max.Y = sprite.Position.Y+40;
 			box.Min = min;
 			box.Max = max;
+			angle = -(float)FMath.Atan2(playerRotation.X, playerRotation.Y);
+			sprite.Angle = angle;
 		}	
 		
 		public void Up(bool down)
