@@ -42,6 +42,7 @@
     <Compile Include="Obstacle.cs" />
     <Compile Include="Background.cs" />
     <Compile Include="Player.cs" />
+    <Compile Include="Bullet.cs" />
   </ItemGroup>
   <ItemGroup>
     <PsmMetadata Include="app.xml" />

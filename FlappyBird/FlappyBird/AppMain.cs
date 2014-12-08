@@ -20,6 +20,7 @@ namespace FlappyBird
 		//private static Sce.PlayStation.HighLevel.GameEngine2D.Base.Camera2D camara;
 		private static Obstacle[]	obstacles;
 		private static Bird			bird;
+		private static Bullet bullet;
 		private static Background background;
 		private static Camera2D cam;
 		
@@ -82,7 +83,7 @@ namespace FlappyBird
 			
 			//Create the flappy douche
 			bird = new Bird(gameScene);
-		
+			bullet = new Bullet(gameScene);
 			
 			//Run the scene.
 			Director.Instance.RunWithScene(gameScene, true);
