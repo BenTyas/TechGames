@@ -43,6 +43,7 @@
     <Compile Include="Background.cs" />
     <Compile Include="Player.cs" />
     <Compile Include="Bullet.cs" />
+    <Compile Include="Enemy.cs" />
   </ItemGroup>
   <ItemGroup>
     <PsmMetadata Include="app.xml" />
@@ -63,5 +64,6 @@
     <Content Include="textures\toppipe.png" />
     <Content Include="textures\background.png" />
     <Content Include="textures\bullet.png" />
+    <Content Include="textures\monster.png" />
   </ItemGroup>
 </Project>

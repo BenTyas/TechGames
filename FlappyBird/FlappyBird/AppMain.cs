@@ -23,7 +23,7 @@ namespace FlappyBird
 		private static Bullet bullet;
 		private static Background background;
 		private static Camera2D cam;
-		
+		private static Enemy enemy;
 		
 		public static void Main (string[] args)
 		{
@@ -85,6 +85,7 @@ namespace FlappyBird
 			//Create the flappy douche
 			bird = new Bird(gameScene);
 			bullet = new Bullet(gameScene);
+			enemy = new Enemy(gameScene);
 			
 			//Run the scene.
 			Director.Instance.RunWithScene(gameScene, true);
@@ -112,7 +113,7 @@ namespace FlappyBird
 			bullet.Update(0.0f);
 			bird.Update(0.0f);			
 			background.Update(0.0f);
-			
+			enemy.Update(0.0f);
 			cam.SetViewX( new Vector2(Director.Instance.GL.Context.GetViewport().Width*0.5f,0.0f), bird.GetPos());
 			
 			if (data.AnalogRightX > 0.2f || data.AnalogRightX < -0.2f || data.AnalogRightY > 0.2f || data.AnalogRightY < -0.2f) 

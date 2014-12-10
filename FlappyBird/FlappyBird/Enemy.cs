@@ -12,6 +12,8 @@ namespace FlappyBird
 	{
 		private static SpriteUV 	sprite;
 		private static TextureInfo	textureInfo;
+		Random rnd = new Random();
+		int num, num2;
 		
 		public Enemy (Scene scene)
 		{
@@ -32,9 +34,29 @@ namespace FlappyBird
 		}
 		
 		public void Update(float deltaTime)
-		{			
+		{	
 			
-			
+
+			num = rnd.Next(1, 40);
+			if (num == 3)
+			{
+				num2 = rnd.Next(1, 4);
+			}
+			if (num2 == 1)
+			{
+				sprite.Position = new Vector2(sprite.Position.X + 1, sprite.Position.Y);
+			} else if (num2 == 2)
+			{
+				sprite.Position = new Vector2(sprite.Position.X - 1, sprite.Position.Y);
+
+			} else if (num2 == 3)
+			{
+				sprite.Position = new Vector2(sprite.Position.X, sprite.Position.Y + 1);
+			} 
+			else
+			{
+				sprite.Position = new Vector2(sprite.Position.X, sprite.Position.Y - 1);
+			}
 		}	
 	}
 	

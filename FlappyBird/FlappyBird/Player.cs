@@ -64,7 +64,8 @@ namespace FlappyBird
 			box.Min = min;
 			box.Max = max;
 			angle = -(float)FMath.Atan2(playerRotation.X, playerRotation.Y);
-			sprite.Angle = angle;
+			sprite.Angle = angle - 45.555f;
+			sprite.CenterSprite();
 		}	
 		
 		public void Up(bool down)
