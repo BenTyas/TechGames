@@ -17,6 +17,7 @@ namespace FlappyBird
 		private static Sce.PlayStation.HighLevel.GameEngine2D.Scene 	gameScene;
 		private static Sce.PlayStation.HighLevel.UI.Scene 				uiScene;
 		private static Sce.PlayStation.HighLevel.UI.Label				scoreLabel;
+		private static Sce.PlayStation.HighLevel.UI.Label				healthLabel;
 		//private static Sce.PlayStation.HighLevel.GameEngine2D.Base.Camera2D camara;
 		private static Obstacle[]	obstacles;
 		private static Bird			bird;
@@ -80,6 +81,11 @@ namespace FlappyBird
 			Director.Instance.GL.Context.GetViewport().Width/2 - scoreLabel.Width/2,
 			Director.Instance.GL.Context.GetViewport().Height*0.1f - scoreLabel.Height/2);
 			scoreLabel.Text = "0";
+			healthLabel = new Sce.PlayStation.HighLevel.UI.Label();
+			healthLabel.HorizontalAlignment = HorizontalAlignment.Left;
+			healthLabel.VerticalAlignment = VerticalAlignment.Top;
+			healthLabel.Text = "100";
+			panel.AddChildLast(healthLabel);
 			panel.AddChildLast(scoreLabel);
 			uiScene.RootWidget.AddChildLast(panel);
 			UISystem.SetScene(uiScene);
@@ -151,8 +157,6 @@ namespace FlappyBird
 				{
 					atkDelay = 0;
 					bird.health = bird.health - 10;
-					Console.WriteLine("OW!");
-					Console.WriteLine(bird.health);
 				}
 				atkDelay ++;
 			}
@@ -172,6 +176,7 @@ namespace FlappyBird
 			
 			
 			scoreLabel.Text = score.ToString();
+			healthLabel.Text = bird.health.ToString();
 		}
 		
 		public static bool Collision(Bounds2 box, Bounds2 box2)
