@@ -56,7 +56,7 @@ namespace FlappyBird
 		}
 		
 		public void Update(float deltaTime)
-		{		
+		{	
 			min.X = sprite.Position.X;
 			min.Y = sprite.Position.Y;
 			max.X = sprite.Position.X+55;
@@ -96,6 +96,12 @@ namespace FlappyBird
 		{
 			return box;
 		}
+		
+		public float getAngle()
+		{
+			return angle;
+		}
+		
 	}
 }
 

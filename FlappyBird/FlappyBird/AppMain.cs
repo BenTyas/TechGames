@@ -23,7 +23,8 @@ namespace FlappyBird
 		private static Bullet bullet;
 		private static Background background;
 		private static Camera2D cam;
-		private static Enemy enemy;
+		private static List<Enemy> enemies;
+		private static int score;
 		
 		public static void Main (string[] args)
 		{
@@ -54,6 +55,8 @@ namespace FlappyBird
 
 		public static void Initialize ()
 		{
+			Random rnd = new Random();
+			
 			//Set up director and UISystem.
 			Director.Initialize ();
 			UISystem.Initialize(Director.Instance.GL.Context);
@@ -82,11 +85,20 @@ namespace FlappyBird
 			
 			background = new Background(gameScene);
 			
-			//Create the flappy douche
+			score = 0;
+			
 			bird = new Bird(gameScene);
 			bullet = new Bullet(gameScene);
-			enemy = new Enemy(gameScene);
 			
+			
+			enemies = new List<Enemy>();
+			for (int i = 0; i < 5; i++)
+			{
+				Enemy enemy = new Enemy(rnd.Next(0, 1271), rnd.Next(0, 794), gameScene);
+				enemies.Add(enemy);
+			}
+			
+						
 			//Run the scene.
 			Director.Instance.RunWithScene(gameScene, true);
 		}
@@ -107,24 +119,43 @@ namespace FlappyBird
 			if (Input2.GamePad0.Right.Down && bird.GetPos().X < 1238)
 			bird.Right(true);
 					
-			if (Input2.GamePad0.Cross.Down)
-			bullet.Shoot(bird.GetPos());
+			if (Input2.GamePad0.R.Down)
+			bullet.Shoot(bird.GetPos(), bird.getAngle());
+			
+			for (int i = enemies.Count - 1; i >= 0 ; i--)
+			{
+				enemies[i].Update(0.0f);
+			}
 			
 			bullet.Update(0.0f);
 			bird.Update(0.0f);			
 			background.Update(0.0f);
-			enemy.Update(0.0f);
+			
+			
+			
+			for (int i = 0; i < enemies.Count; i++)
+			{
+				//enemies[i].Update(0.0f);
+				if (Collision(bullet.GetBox(), enemies[i].GetBox()))
+				{
+					if (!enemies[i].dead)
+					score = score + 1;
+					enemies[i].dead = true;
+				}
+			}
+			
 			cam.SetViewX( new Vector2(Director.Instance.GL.Context.GetViewport().Width*0.5f,0.0f), bird.GetPos());
 			
 			if (data.AnalogRightX > 0.2f || data.AnalogRightX < -0.2f || data.AnalogRightY > 0.2f || data.AnalogRightY < -0.2f) 
 			{
 				var angleInRadians = FMath.Atan2 (-data.AnalogRightX, -data.AnalogRightY);
 				var angleInRadians2 = FMath.Atan2 (-data.AnalogLeftX, -data.AnalogLeftY);
-				bird.playerRotation = new Vector2 (FMath.Cos (angleInRadians), FMath.Sin (angleInRadians));
+				bird.playerRotation = new Vector2 (-FMath.Cos (angleInRadians), -FMath.Sin (angleInRadians));
 				bird.playerMovement = new Vector2 (FMath.Cos (angleInRadians2), FMath.Sin (angleInRadians2));
 			}
 			
-							
+			
+			scoreLabel.Text = score.ToString();
 		}
 		
 		public static bool Collision(Bounds2 box, Bounds2 box2)
