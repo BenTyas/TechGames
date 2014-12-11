@@ -63,10 +63,10 @@ namespace FlappyBird
 		{	
 		
 			
-				min.X = sprite.Position.X;
-				min.Y = sprite.Position.Y;
-				max.X = sprite.Position.X+55;
-				max.Y = sprite.Position.Y+40;
+				min.X = sprite.Position.X - (sprite.TextureInfo.TextureSizef.X/2);
+				min.Y = sprite.Position.Y - (sprite.TextureInfo.TextureSizef.Y/2);
+				max.X = sprite.Position.X + (sprite.TextureInfo.TextureSizef.X/2);  
+				max.Y = sprite.Position.Y + (sprite.TextureInfo.TextureSizef.Y/2);
 				box.Min = min;
 				box.Max = max;
 				angle = -(float)FMath.Atan2(playerRotation.X, playerRotation.Y);
@@ -108,7 +108,10 @@ namespace FlappyBird
 		{
 			return angle;
 		}
-		
+		public Vector2 getTexInfo()
+		{
+			return sprite.TextureInfo.TextureSizef;
+		}
 	}
 }
 

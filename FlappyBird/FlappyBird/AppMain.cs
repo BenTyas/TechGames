@@ -116,14 +116,14 @@ namespace FlappyBird
 				GamePadData data = GamePad.GetData(0);
 			if (!bird.dead)
 			{
-				if (Input2.GamePad0.Up.Down && bird.GetPos().Y < 744)
+				if (Input2.GamePad0.Up.Down && bird.GetPos().Y < 794 - (bird.getTexInfo().Y/2))
 				bird.Up(true);
-				if (Input2.GamePad0.Down.Down && bird.GetPos().Y > 0)
+				if (Input2.GamePad0.Down.Down && bird.GetPos().Y > 0 + (bird.getTexInfo().Y/2))
 				bird.Down(true);
 				
-				if (Input2.GamePad0.Left.Down && bird.GetPos().X > 0)
+				if (Input2.GamePad0.Left.Down && bird.GetPos().X > 0 + (bird.getTexInfo().X/2))
 				bird.Left(true);
-				if (Input2.GamePad0.Right.Down && bird.GetPos().X < 1238)
+				if (Input2.GamePad0.Right.Down && bird.GetPos().X < 1271 - (bird.getTexInfo().Y/2))
 				bird.Right(true);
 						
 				if (Input2.GamePad0.R.Down)

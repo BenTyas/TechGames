@@ -42,10 +42,10 @@ namespace FlappyBird
 		public void Update(float deltaTime)
 		{	
 			
-			min.X = sprite.Position.X;
-			min.Y = sprite.Position.Y;
-			max.X = sprite.Position.X+50;
-			max.Y = sprite.Position.Y+55;
+			min.X = sprite.Position.X - (sprite.TextureInfo.TextureSizef.X/2);
+			min.Y = sprite.Position.Y- (sprite.TextureInfo.TextureSizef.Y/2);
+			max.X = sprite.Position.X+ (sprite.TextureInfo.TextureSizef.X/2);
+			max.Y = sprite.Position.Y+ (sprite.TextureInfo.TextureSizef.Y/2);
 			box.Min = min;
 			box.Max = max;
 			sprite.CenterSprite();
