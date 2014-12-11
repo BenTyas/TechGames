@@ -106,30 +106,36 @@ namespace FlappyBird
 		public static void Update()
 		{
 			
-			var touches = Touch.GetData(0);
-			GamePadData data = GamePad.GetData(0);
-			
-			if (Input2.GamePad0.Up.Down && bird.GetPos().Y < 744)
-			bird.Up(true);
-			if (Input2.GamePad0.Down.Down && bird.GetPos().Y > 0)
-			bird.Down(true);
-			
-			if (Input2.GamePad0.Left.Down && bird.GetPos().X > 0)
-			bird.Left(true);
-			if (Input2.GamePad0.Right.Down && bird.GetPos().X < 1238)
-			bird.Right(true);
-					
-			if (Input2.GamePad0.R.Down)
-			bullet.Shoot(bird.GetPos(), bird.getAngle());
-			
-			for (int i = enemies.Count - 1; i >= 0 ; i--)
+		
+				var touches = Touch.GetData(0);
+				GamePadData data = GamePad.GetData(0);
+			if (!bird.dead)
 			{
-				enemies[i].Update(0.0f);
+				if (Input2.GamePad0.Up.Down && bird.GetPos().Y < 744)
+				bird.Up(true);
+				if (Input2.GamePad0.Down.Down && bird.GetPos().Y > 0)
+				bird.Down(true);
+				
+				if (Input2.GamePad0.Left.Down && bird.GetPos().X > 0)
+				bird.Left(true);
+				if (Input2.GamePad0.Right.Down && bird.GetPos().X < 1238)
+				bird.Right(true);
+						
+				if (Input2.GamePad0.R.Down)
+				bullet.Shoot(bird.GetPos(), bird.getAngle());
+				
+				for (int i = enemies.Count - 1; i >= 0 ; i--)
+				{
+					enemies[i].Update(0.0f);
+				}
+				
+				bullet.Update(0.0f);
+				
+				
+				bird.Update(0.0f);
+				
+				background.Update(0.0f);
 			}
-			
-			bullet.Update(0.0f);
-			bird.Update(0.0f);			
-			background.Update(0.0f);
 			
 			
 			
@@ -142,7 +148,15 @@ namespace FlappyBird
 					score = score + 1;
 					enemies[i].dead = true;
 				}
+				if (Collision(enemies[i].GetBox(), bird.GetBox()))
+				{
+					bird.dead = true;
+					Console.WriteLine("hello");
+				}
 			}
+			
+	
+			
 			
 			cam.SetViewX( new Vector2(Director.Instance.GL.Context.GetViewport().Width*0.5f,0.0f), bird.GetPos());
 			

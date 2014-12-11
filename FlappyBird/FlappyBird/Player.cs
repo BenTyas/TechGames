@@ -23,6 +23,7 @@ namespace FlappyBird
 		private Bounds2 box;
 		public Vector2 playerMovement;
 		public Vector2 playerRotation;
+		public bool dead;
 		
 		public bool Alive { get{return alive;} set{alive = value;} }
 		
@@ -45,6 +46,7 @@ namespace FlappyBird
 			min = new Vector2(0,0);
 			max = new Vector2(0,0);
 			box = new Bounds2(min, max);
+			dead = false;
 			
 			//Add to the current scene.
 			scene.AddChild(sprite);
@@ -57,15 +59,18 @@ namespace FlappyBird
 		
 		public void Update(float deltaTime)
 		{	
-			min.X = sprite.Position.X;
-			min.Y = sprite.Position.Y;
-			max.X = sprite.Position.X+55;
-			max.Y = sprite.Position.Y+40;
-			box.Min = min;
-			box.Max = max;
-			angle = -(float)FMath.Atan2(playerRotation.X, playerRotation.Y);
-			sprite.Angle = angle - 45.555f;
-			sprite.CenterSprite();
+		
+			
+				min.X = sprite.Position.X;
+				min.Y = sprite.Position.Y;
+				max.X = sprite.Position.X+55;
+				max.Y = sprite.Position.Y+40;
+				box.Min = min;
+				box.Max = max;
+				angle = -(float)FMath.Atan2(playerRotation.X, playerRotation.Y);
+				sprite.Angle = angle - 45.555f;
+				sprite.CenterSprite();
+			
 		}	
 		
 		public void Up(bool down)
