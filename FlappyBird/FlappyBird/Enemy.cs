@@ -48,29 +48,50 @@ namespace FlappyBird
 			max.Y = sprite.Position.Y+55;
 			box.Min = min;
 			box.Max = max;
-			
+			sprite.CenterSprite();
 			if (!dead)
 			{
-				num = rnd.Next(1, 40);
+				num = rnd.Next(1, 100);
 				if (num == 3)
 				{
-					num2 = rnd.Next(1, 4);
+					num2 = rnd.Next(1, 5);
 				}
 				if (num2 == 1)
 				{
 					sprite.Position = new Vector2(sprite.Position.X + 1, sprite.Position.Y);
+					sprite.Angle = 300f;
 				} else if (num2 == 2)
 				{
 					sprite.Position = new Vector2(sprite.Position.X - 1, sprite.Position.Y);
-		
+					sprite.Angle = 900f;
 				} else if (num2 == 3)
 				{
 					sprite.Position = new Vector2(sprite.Position.X, sprite.Position.Y + 1);
+					sprite.Angle = 0f;
 				} 
 				else
 				{
 					sprite.Position = new Vector2(sprite.Position.X, sprite.Position.Y - 1);
+					sprite.Angle = 600f;
 				}
+				
+				if (sprite.Position.X > 1271 - sprite.TextureInfo.TextureSizef.X) //Hits Right edge
+				{
+					num2 = 2; //Change direction
+				}
+				if (sprite.Position.X < 0)//Hits left edge
+				{
+					num2 = 1; //Change direction
+				}
+				if (sprite.Position.Y > 794 - sprite.TextureInfo.TextureSizef.Y) //Hits top
+				{
+					num2 = 4; //Change direction
+				}
+				if (sprite.Position.Y < 0) //Hits bottom
+				{
+					num2 = 3;
+				}
+				
 		
 			} else
 			{
