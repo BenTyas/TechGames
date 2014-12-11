@@ -25,6 +25,7 @@ namespace FlappyBird
 		private static Camera2D cam;
 		private static List<Enemy> enemies;
 		private static int score;
+		private static int atkDelay = 100;
 		
 		public static void Main (string[] args)
 		{
@@ -90,7 +91,6 @@ namespace FlappyBird
 			bird = new Bird(gameScene);
 			bullet = new Bullet(gameScene);
 			
-			
 			enemies = new List<Enemy>();
 			for (int i = 0; i < 5; i++)
 			{
@@ -98,7 +98,6 @@ namespace FlappyBird
 				enemies.Add(enemy);
 			}
 			
-						
 			//Run the scene.
 			Director.Instance.RunWithScene(gameScene, true);
 		}
@@ -148,11 +147,14 @@ namespace FlappyBird
 					score = score + 1;
 					enemies[i].dead = true;
 				}
-				if (Collision(enemies[i].GetBox(), bird.GetBox()))
+				if ((Collision(enemies[i].GetBox(), bird.GetBox())) && atkDelay >= 100)
 				{
-					bird.dead = true;
-					Console.WriteLine("hello");
+					atkDelay = 0;
+					bird.health = bird.health - 10;
+					Console.WriteLine("OW!");
+					Console.WriteLine(bird.health);
 				}
+				atkDelay ++;
 			}
 			
 	

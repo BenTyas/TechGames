@@ -24,6 +24,7 @@ namespace FlappyBird
 		public Vector2 playerMovement;
 		public Vector2 playerRotation;
 		public bool dead;
+		public int health;
 		
 		public bool Alive { get{return alive;} set{alive = value;} }
 		
@@ -43,6 +44,7 @@ namespace FlappyBird
 			angle = 0.0f;
 			rise  = false;
 			alive = true;
+			health = 100;
 			min = new Vector2(0,0);
 			max = new Vector2(0,0);
 			box = new Bounds2(min, max);
