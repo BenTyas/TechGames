@@ -176,7 +176,7 @@ namespace FlappyBird
 			
 			
 			scoreLabel.Text = score.ToString();
-			healthLabel.Text = bird.health.ToString();
+			healthLabel.Text = ("Health: " + bird.health.ToString());
 		}
 		
 		public static bool Collision(Bounds2 box, Bounds2 box2)
