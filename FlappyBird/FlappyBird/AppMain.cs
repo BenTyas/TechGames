@@ -22,7 +22,7 @@ namespace FlappyBird
 		//private static Sce.PlayStation.HighLevel.GameEngine2D.Base.Camera2D camara;
 		private static Obstacle[]	obstacles;
 		private static Bird			bird;
-		private static Bullet bullet;
+		private static List<Bullet> bullets;
 		private static Background background;
 		private static Camera2D cam;
 		private static List<Enemy> enemies;
@@ -108,8 +108,14 @@ namespace FlappyBird
 			score = 0;
 			
 			bird = new Bird(gameScene);
-			bullet = new Bullet(gameScene);
 			
+			bullets = new List<Bullet>();
+			Bullet bullet = new Bullet(gameScene);
+			bullets.Add(bullet);
+			
+			
+			
+				
 			enemies = new List<Enemy>();
 			for (int i = 0; i < numEnemies; i++)
 			{
@@ -148,36 +154,43 @@ namespace FlappyBird
 					bird.Right(true);
 						
 				if (Input2.GamePad0.R.Down)
-					bullet.Shoot(bird.GetPos(), bird.getAngle());
-				
+				{
+					
+					bullets[0].Shoot(bird.GetPos(), bird.getAngle());
+				}
 				for (int i = enemies.Count - 1; i >= 0 ; i--)
 				{
 					enemies[i].Update(0.0f);
 					
 				}
-				
-				bullet.Update(0.0f);
+				for (int i = 0; i < bullets.Count; i++)
+				{
+					bullets[i].Update(0.0f);
+				}
 				bird.Update(0.0f);
 				background.Update(0.0f);
 				
 				for (int i = 0; i < enemies.Count; i++)
 				{
 					enemies[i].speed = 0.1f * (10 + score);
-					if (Collision(bullet.GetBox(), enemies[i].GetBox()))
+					for (int a = 0; a < bullets.Count; a++)
 					{
-						if (!enemies[i].dead)
+						if (Collision(bullets[a].GetBox(), enemies[i].GetBox()))
 						{
-							score = score + 1;
-							enemies[i].dead = true;
-							Enemy enemy1 = new Enemy(0, 0, gameScene);
-							enemy1.setPos();
-							enemies.Add(enemy1);
+							if (!enemies[i].dead)
+							{
+								score = score + 1;
+								enemies[i].dead = true;
+								Enemy enemy1 = new Enemy(0, 0, gameScene);
+								enemy1.setPos();
+								enemies.Add(enemy1);
+								
+								Enemy enemy2 = new Enemy(0, 0, gameScene);
+								enemy2.setPos();
+								enemies.Add(enemy2);
+							}
 							
-							Enemy enemy2 = new Enemy(0, 0, gameScene);
-							enemy2.setPos();
-							enemies.Add(enemy2);
 						}
-						
 					}
 					if ((Collision(enemies[i].GetBox(), bird.GetBox())) && atkDelay >= 100 && !enemies[i].dead)
 					{
