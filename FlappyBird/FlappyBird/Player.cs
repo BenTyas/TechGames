@@ -112,6 +112,11 @@ namespace FlappyBird
 		{
 			return sprite.TextureInfo.TextureSizef;
 		}
+		
+		public void setPos(float x, float y)
+		{
+			sprite.Position = new Vector2(x, y);
+		}
 	}
 }
 

@@ -18,6 +18,7 @@ namespace FlappyBird
 		private static Sce.PlayStation.HighLevel.UI.Scene 				uiScene;
 		private static Sce.PlayStation.HighLevel.UI.Label				scoreLabel;
 		private static Sce.PlayStation.HighLevel.UI.Label				healthLabel;
+		private static Sce.PlayStation.HighLevel.UI.Label				endGameLabel;
 		//private static Sce.PlayStation.HighLevel.GameEngine2D.Base.Camera2D camara;
 		private static Obstacle[]	obstacles;
 		private static Bird			bird;
@@ -85,8 +86,17 @@ namespace FlappyBird
 			healthLabel.HorizontalAlignment = HorizontalAlignment.Left;
 			healthLabel.VerticalAlignment = VerticalAlignment.Top;
 			healthLabel.Text = "100";
+			endGameLabel = new Sce.PlayStation.HighLevel.UI.Label();
+			endGameLabel.HorizontalAlignment = HorizontalAlignment.Center;
+			endGameLabel.VerticalAlignment = VerticalAlignment.Middle;
+			endGameLabel.SetPosition(
+			Director.Instance.GL.Context.GetViewport().Width/2 - scoreLabel.Width/2 - 100,
+			Director.Instance.GL.Context.GetViewport().Height/2 - scoreLabel.Height/2);
+			endGameLabel.SetSize(500,scoreLabel.Height);
+			endGameLabel.Text = "";
 			panel.AddChildLast(healthLabel);
 			panel.AddChildLast(scoreLabel);
+			panel.AddChildLast(endGameLabel);
 			uiScene.RootWidget.AddChildLast(panel);
 			UISystem.SetScene(uiScene);
 			
@@ -132,6 +142,7 @@ namespace FlappyBird
 				for (int i = enemies.Count - 1; i >= 0 ; i--)
 				{
 					enemies[i].Update(0.0f);
+					
 				}
 				
 				bullet.Update(0.0f);
@@ -140,31 +151,29 @@ namespace FlappyBird
 				bird.Update(0.0f);
 				
 				background.Update(0.0f);
-			}
-			
-			
-			
-			for (int i = 0; i < enemies.Count; i++)
-			{
-				//enemies[i].Update(0.0f);
-				if (Collision(bullet.GetBox(), enemies[i].GetBox()))
+				for (int i = 0; i < enemies.Count; i++)
 				{
-					if (!enemies[i].dead)
-					score = score + 1;
-					enemies[i].dead = true;
+					//enemies[i].Update(0.0f);
+					if (Collision(bullet.GetBox(), enemies[i].GetBox()))
+					{
+						if (!enemies[i].dead)
+						score = score + 1;
+						enemies[i].dead = true;
+					}
+					if ((Collision(enemies[i].GetBox(), bird.GetBox())) && atkDelay >= 100)
+					{
+						atkDelay = 0;
+						bird.health = bird.health - 10;
+						if (bird.health == 0)
+						{
+							bird.dead = true;
+							endGameLabel.Text = ("Game Over - Score: " + score.ToString() + " Press X to restart");
+						}
+					}
+					atkDelay ++;
 				}
-				if ((Collision(enemies[i].GetBox(), bird.GetBox())) && atkDelay >= 100)
-				{
-					atkDelay = 0;
-					bird.health = bird.health - 10;
-				}
-				atkDelay ++;
-			}
-			
-	
-			
-			
-			cam.SetViewX( new Vector2(Director.Instance.GL.Context.GetViewport().Width*0.5f,0.0f), bird.GetPos());
+				
+				cam.SetViewX( new Vector2(Director.Instance.GL.Context.GetViewport().Width*0.5f,0.0f), bird.GetPos());
 			
 			if (data.AnalogRightX > 0.2f || data.AnalogRightX < -0.2f || data.AnalogRightY > 0.2f || data.AnalogRightY < -0.2f) 
 			{
@@ -173,6 +182,32 @@ namespace FlappyBird
 				bird.playerRotation = new Vector2 (-FMath.Cos (angleInRadians), -FMath.Sin (angleInRadians));
 				bird.playerMovement = new Vector2 (FMath.Cos (angleInRadians2), FMath.Sin (angleInRadians2));
 			}
+			
+			
+			} else
+			{
+				if (Input2.GamePad0.Cross.Down)
+				{
+					for (int i = 0; i < enemies.Count; i++)
+					{
+						enemies[i].dead = false;
+						enemies[i].setPos();
+					}
+					bird.dead = false;
+					score = 0;
+					endGameLabel.Text = "";
+					bird.setPos(Director.Instance.GL.Context.GetViewport().Width/2,
+					Director.Instance.GL.Context.GetViewport().Height/2);
+					bird.health = 100;
+					
+				}
+			}
+			
+			
+			
+			
+	
+			
 			
 			
 			scoreLabel.Text = score.ToString();
