@@ -28,6 +28,8 @@ namespace FlappyBird
 		private static List<Enemy> enemies;
 		private static int score;
 		private static int atkDelay = 100;
+		private static Random rnd = new Random();
+		private static int numEnemies = 20;
 		
 		public static void Main (string[] args)
 		{
@@ -51,14 +53,15 @@ namespace FlappyBird
 			bird.Dispose();
 			foreach(Obstacle obstacle in obstacles)
 				obstacle.Dispose();
-		background.Dispose();
+			
+			background.Dispose();
 			
 			Director.Terminate ();
 		}
 
 		public static void Initialize ()
 		{
-			Random rnd = new Random();
+			
 			
 			//Set up director and UISystem.
 			Director.Initialize ();
@@ -108,9 +111,13 @@ namespace FlappyBird
 			bullet = new Bullet(gameScene);
 			
 			enemies = new List<Enemy>();
-			for (int i = 0; i < 5; i++)
+			for (int i = 0; i < numEnemies; i++)
 			{
 				Enemy enemy = new Enemy(rnd.Next(0, 1271), rnd.Next(0, 794), gameScene);
+				if (Collision(enemy.GetBox(),bird.GetBox2()))
+			    {
+					enemy.setPos();
+				}
 				enemies.Add(enemy);
 			}
 			
@@ -120,24 +127,28 @@ namespace FlappyBird
 		
 		public static void Update()
 		{
+
+			cam.SetViewX( new Vector2(Director.Instance.GL.Context.GetViewport().Width*0.5f,0.0f), bird.GetPos());
+
+			var touches = Touch.GetData(0);
+			GamePadData data = GamePad.GetData(0);
 			
-		
-				var touches = Touch.GetData(0);
-				GamePadData data = GamePad.GetData(0);
 			if (!bird.dead)
 			{
 				if (Input2.GamePad0.Up.Down && bird.GetPos().Y < 794 - (bird.getTexInfo().Y/2))
-				bird.Up(true);
+					bird.Up(true);
+				
 				if (Input2.GamePad0.Down.Down && bird.GetPos().Y > 0 + (bird.getTexInfo().Y/2))
-				bird.Down(true);
+					bird.Down(true);
 				
 				if (Input2.GamePad0.Left.Down && bird.GetPos().X > 0 + (bird.getTexInfo().X/2))
-				bird.Left(true);
+					bird.Left(true);
+				
 				if (Input2.GamePad0.Right.Down && bird.GetPos().X < 1271 - (bird.getTexInfo().Y/2))
-				bird.Right(true);
+					bird.Right(true);
 						
 				if (Input2.GamePad0.R.Down)
-				bullet.Shoot(bird.GetPos(), bird.getAngle());
+					bullet.Shoot(bird.GetPos(), bird.getAngle());
 				
 				for (int i = enemies.Count - 1; i >= 0 ; i--)
 				{
@@ -146,21 +157,29 @@ namespace FlappyBird
 				}
 				
 				bullet.Update(0.0f);
-				
-				
 				bird.Update(0.0f);
-				
 				background.Update(0.0f);
+				
 				for (int i = 0; i < enemies.Count; i++)
 				{
-					//enemies[i].Update(0.0f);
+					enemies[i].speed = 0.1f * (10 + score);
 					if (Collision(bullet.GetBox(), enemies[i].GetBox()))
 					{
 						if (!enemies[i].dead)
-						score = score + 1;
-						enemies[i].dead = true;
+						{
+							score = score + 1;
+							enemies[i].dead = true;
+							Enemy enemy1 = new Enemy(0, 0, gameScene);
+							enemy1.setPos();
+							enemies.Add(enemy1);
+							
+							Enemy enemy2 = new Enemy(0, 0, gameScene);
+							enemy2.setPos();
+							enemies.Add(enemy2);
+						}
+						
 					}
-					if ((Collision(enemies[i].GetBox(), bird.GetBox())) && atkDelay >= 100)
+					if ((Collision(enemies[i].GetBox(), bird.GetBox())) && atkDelay >= 100 && !enemies[i].dead)
 					{
 						atkDelay = 0;
 						bird.health = bird.health - 10;
@@ -173,7 +192,6 @@ namespace FlappyBird
 					atkDelay ++;
 				}
 				
-				cam.SetViewX( new Vector2(Director.Instance.GL.Context.GetViewport().Width*0.5f,0.0f), bird.GetPos());
 			
 			if (data.AnalogRightX > 0.2f || data.AnalogRightX < -0.2f || data.AnalogRightY > 0.2f || data.AnalogRightY < -0.2f) 
 			{
@@ -182,16 +200,23 @@ namespace FlappyBird
 				bird.playerRotation = new Vector2 (-FMath.Cos (angleInRadians), -FMath.Sin (angleInRadians));
 				bird.playerMovement = new Vector2 (FMath.Cos (angleInRadians2), FMath.Sin (angleInRadians2));
 			}
-			
-			
 			} else
 			{
 				if (Input2.GamePad0.Cross.Down)
 				{
 					for (int i = 0; i < enemies.Count; i++)
 					{
-						enemies[i].dead = false;
-						enemies[i].setPos();
+						enemies[i].setInvis();
+					}
+					enemies.Clear();
+					for (int a = 0; a < numEnemies; a++)
+					{
+						Enemy enemy = new Enemy(rnd.Next(0, 1271), rnd.Next(0, 794), gameScene);
+						if (Collision(enemy.GetBox(),bird.GetBox2()))
+					    {
+							enemy.setPos();
+						}
+						enemies.Add(enemy);
 					}
 					bird.dead = false;
 					score = 0;
@@ -202,13 +227,6 @@ namespace FlappyBird
 					
 				}
 			}
-			
-			
-			
-			
-	
-			
-			
 			
 			scoreLabel.Text = score.ToString();
 			healthLabel.Text = ("Health: " + bird.health.ToString());

@@ -18,7 +18,7 @@ namespace FlappyBird
 		private Vector2 max;
 		private Bounds2 box;
 		public bool dead;
-		
+		public float speed;
 		public Enemy (float startX, float startY, Scene scene)
 		{
 			textureInfo  = new TextureInfo("/Application/textures/monster.png");
@@ -32,6 +32,7 @@ namespace FlappyBird
 			box = new Bounds2(min, max);
 			//Add to the current scene.
 			scene.AddChild(sprite);
+			speed = 1;
 		}
 		
 		public void Dispose()
@@ -58,20 +59,20 @@ namespace FlappyBird
 				}
 				if (num2 == 1)
 				{
-					sprite.Position = new Vector2(sprite.Position.X + 1, sprite.Position.Y);
+					sprite.Position = new Vector2(sprite.Position.X + speed, sprite.Position.Y);
 					sprite.Angle = 300f;
 				} else if (num2 == 2)
 				{
-					sprite.Position = new Vector2(sprite.Position.X - 1, sprite.Position.Y);
+					sprite.Position = new Vector2(sprite.Position.X - speed, sprite.Position.Y);
 					sprite.Angle = 900f;
 				} else if (num2 == 3)
 				{
-					sprite.Position = new Vector2(sprite.Position.X, sprite.Position.Y + 1);
+					sprite.Position = new Vector2(sprite.Position.X, sprite.Position.Y + speed);
 					sprite.Angle = 0f;
 				} 
 				else
 				{
-					sprite.Position = new Vector2(sprite.Position.X, sprite.Position.Y - 1);
+					sprite.Position = new Vector2(sprite.Position.X, sprite.Position.Y - speed);
 					sprite.Angle = 600f;
 				}
 				
@@ -104,7 +105,20 @@ namespace FlappyBird
 		}
 		public void setPos()
 		{
-			sprite.Position = new Vector2(rnd.Next(0, 1271), rnd.Next(0, 794));
+			int num = rnd.Next(0,3);
+			if (num == 0)
+			sprite.Position = new Vector2(rnd.Next(1271, 1371), rnd.Next(0, 794));
+			else if (num == 1)
+			sprite.Position = new Vector2(rnd.Next(-100, 0), rnd.Next(0, 794));
+			else if (num == 2)
+			sprite.Position = new Vector2(rnd.Next(0, 1271), rnd.Next(794, 900));
+			else
+			sprite.Position = new Vector2(rnd.Next(0, 1271), rnd.Next(-100, 0));
+
+		}
+		public void setInvis()
+		{
+			sprite.Visible = false;
 		}
 	}
 	

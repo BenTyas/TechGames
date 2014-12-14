@@ -104,6 +104,17 @@ namespace FlappyBird
 			return box;
 		}
 		
+		public Bounds2 GetBox2()
+		{
+			min.X = sprite.Position.X - (sprite.TextureInfo.TextureSizef.X/2) - 50;
+			min.Y = sprite.Position.Y - (sprite.TextureInfo.TextureSizef.Y/2) - 50;
+			max.X = sprite.Position.X + (sprite.TextureInfo.TextureSizef.X/2) + 50;  
+			max.Y = sprite.Position.Y + (sprite.TextureInfo.TextureSizef.Y/2) + 50;
+			box.Min = min;
+			box.Max = max;
+			return box;
+		}
+		
 		public float getAngle()
 		{
 			return angle;
