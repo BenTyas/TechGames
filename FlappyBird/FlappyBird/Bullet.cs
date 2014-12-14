@@ -20,7 +20,7 @@ namespace FlappyBird
 		private Vector2 direction;
 		private Vector2 origin;
 		private int speed = 10;
-		
+		public int ammo = 40;
 		
 		
 		public Bullet (Scene scene)
@@ -69,10 +69,16 @@ namespace FlappyBird
 		{
 			if (!shoot)
 			{
-				if (mGun)
+				if (mGun && ammo >= 0)
+				{
 					speed = 40;
+					ammo--;
+				}
 				else
+				{
+					ammo = 0;
 					speed = 10;
+				}
 				
 				
 				sprite.Position = new Vector2 (Pos.X + 11, Pos.Y - 8);

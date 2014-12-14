@@ -19,6 +19,7 @@ namespace FlappyBird
 		private static Sce.PlayStation.HighLevel.UI.Label				scoreLabel;
 		private static Sce.PlayStation.HighLevel.UI.Label				healthLabel;
 		private static Sce.PlayStation.HighLevel.UI.Label				endGameLabel;
+		private static Sce.PlayStation.HighLevel.UI.Label				ammoLabel;
 		//private static Sce.PlayStation.HighLevel.GameEngine2D.Base.Camera2D camara;
 		private static Obstacle[]	obstacles;
 		private static Bird			bird;
@@ -101,9 +102,16 @@ namespace FlappyBird
 			Director.Instance.GL.Context.GetViewport().Height/2 - scoreLabel.Height/2);
 			endGameLabel.SetSize(500,scoreLabel.Height);
 			endGameLabel.Text = "";
+			ammoLabel = new Sce.PlayStation.HighLevel.UI.Label();
+			ammoLabel.HorizontalAlignment = HorizontalAlignment.Center;
+			ammoLabel.SetPosition(
+			Director.Instance.GL.Context.GetViewport().Width/2 - scoreLabel.Width/2, 500);
+			ammoLabel.SetSize(scoreLabel.Width,scoreLabel.Height);
+			ammoLabel.Text = "";
 			panel.AddChildLast(healthLabel);
 			panel.AddChildLast(scoreLabel);
 			panel.AddChildLast(endGameLabel);
+			panel.AddChildLast(ammoLabel);
 			uiScene.RootWidget.AddChildLast(panel);
 			UISystem.SetScene(uiScene);
 			
@@ -177,6 +185,7 @@ namespace FlappyBird
 							if (num == 3)
 							{
 								machineGun.setPos(enemies[i].GetBox().Min.X,enemies[i].GetBox().Min.Y);
+								machineGun.setVis();
 							}
 							score = score + 1;
 							enemies[i].dead = true;
@@ -187,9 +196,6 @@ namespace FlappyBird
 							Enemy enemy2 = new Enemy(0, 0, gameScene);
 							enemy2.setPos();
 							enemies.Add(enemy2);
-							mGunAmmo--;
-							if (mGunAmmo < 0)
-								mGun = false;
 						}
 						
 					}
@@ -207,11 +213,23 @@ namespace FlappyBird
 					atkDelay ++;
 				}
 				
+				if (bullet.ammo <= 0)
+				{	
+					mGun = false;
+				}
+				
+				if (mGun)
+					ammoLabel.Text = bullet.ammo.ToString();
+				else
+					ammoLabel.Text = "";
+						
+				
 			
-			if (Collision(bird.GetBox(), machineGun.GetBox()))
+			if (Collision(bird.GetBox(), machineGun.GetBox()) && machineGun.checkVis())
 			{
 					machineGun.pickedUp();
 					mGun = true;
+					bullet.ammo = 40;
 			}
 				
 			if (data.AnalogRightX > 0.2f || data.AnalogRightX < -0.2f || data.AnalogRightY > 0.2f || data.AnalogRightY < -0.2f) 
@@ -245,6 +263,8 @@ namespace FlappyBird
 					bird.setPos(Director.Instance.GL.Context.GetViewport().Width/2,
 					Director.Instance.GL.Context.GetViewport().Height/2);
 					bird.health = 100;
+					mGun = false;
+					ammoLabel.Text = "";
 					
 				}
 			}

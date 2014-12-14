@@ -59,6 +59,15 @@ namespace FlappyBird
 			sprite.Position = new Vector2(x, y);
 		}
 		
+		public void setVis()
+		{
+			sprite.Visible = true;
+		}
+		
+		public bool checkVis()
+		{
+			return sprite.Visible;
+		}
 	}
 }
 
