@@ -104,7 +104,20 @@ namespace FlappyBird
 		}
 		public void setPos()
 		{
-			sprite.Position = new Vector2(rnd.Next(0, 1271), rnd.Next(0, 794));
+			int num = rnd.Next(0,3);
+			if (num == 0)
+			sprite.Position = new Vector2(rnd.Next(1271, 1371), rnd.Next(0, 794));
+			else if (num == 1)
+			sprite.Position = new Vector2(rnd.Next(-100, 0), rnd.Next(0, 794));
+			else if (num == 2)
+			sprite.Position = new Vector2(rnd.Next(0, 1271), rnd.Next(794, 900));
+			else
+			sprite.Position = new Vector2(rnd.Next(0, 1271), rnd.Next(-100, 0));
+
+		}
+		public void setInvis()
+		{
+			sprite.Visible = false;
 		}
 	}
 	
