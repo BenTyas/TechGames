@@ -176,7 +176,7 @@ namespace FlappyBird
 				
 				for (int i = 0; i < enemies.Count; i++)
 				{
-					enemies[i].speed = 0.1f * (10 + (score/2));
+					enemies[i].speed = 0.1f * (10 + (score/4));
 					if (Collision (bullet.GetBox(), enemies[i].GetBox()) && !enemies[i].dead)
 					{
 						num = rnd.Next(1, 10);
