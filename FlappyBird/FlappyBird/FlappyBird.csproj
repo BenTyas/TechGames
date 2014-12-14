@@ -67,5 +67,6 @@
     <Content Include="textures\bullet.png" />
     <Content Include="textures\monster.png" />
     <Content Include="textures\gun.png" />
+    <Content Include="textures\health.png" />
   </ItemGroup>
 </Project>

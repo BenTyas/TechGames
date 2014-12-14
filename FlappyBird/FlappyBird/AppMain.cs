@@ -32,9 +32,10 @@ namespace FlappyBird
 		private static Random rnd = new Random();
 		private static int numEnemies = 20;
 		private static Pickup machineGun;
+		private static Pickup health;
 		private static int num;
 		private static bool mGun;
-		private static int mGunAmmo = 30;
+		
 		
 		public static void Main (string[] args)
 		{
@@ -122,8 +123,11 @@ namespace FlappyBird
 			bird = new Bird(gameScene);
 			
 			bullet = new Bullet(gameScene);
-			machineGun = new Pickup(-500, -500, gameScene);
+			machineGun = new Pickup(-500, -500, gameScene, true);
+			health = new Pickup(-500, -500, gameScene, false);
+			
 			enemies = new List<Enemy>();
+			
 			for (int i = 0; i < numEnemies; i++)
 			{
 				Enemy enemy = new Enemy(rnd.Next(0, 1271), rnd.Next(0, 794), gameScene);
@@ -173,17 +177,23 @@ namespace FlappyBird
 				bird.Update(0.0f);
 				background.Update(0.0f);
 				machineGun.Update(0.0f);
+				health.Update(0.0f);
 				
 				for (int i = 0; i < enemies.Count; i++)
 				{
 					enemies[i].speed = 0.1f * (10 + (score/4));
 					if (Collision (bullet.GetBox(), enemies[i].GetBox()) && !enemies[i].dead)
 					{
-						num = rnd.Next(1, 10);
+						num = rnd.Next(1, 20);
 						if (num == 3)
 						{
 							machineGun.setPos(enemies[i].GetBox().Min.X,enemies[i].GetBox().Min.Y);
 							machineGun.setVis();
+						}
+						if (num == 6)
+						{
+							health.setPos(enemies[i].GetBox().Min.X,enemies[i].GetBox().Min.Y);
+							health.setVis();
 						}
 						score = score + 1;
 						enemies[i].dead = true;
@@ -225,9 +235,14 @@ namespace FlappyBird
 			
 			if (Collision(bird.GetBox(), machineGun.GetBox()) && machineGun.checkVis())
 			{
-					machineGun.pickedUp();
-					mGun = true;
-					bullet.ammo = 40;
+				machineGun.pickedUp();
+				mGun = true;
+				bullet.ammo = 40;
+			}
+			if (Collision(bird.GetBox(), health.GetBox()) && health.checkVis())
+			{
+				health.pickedUp();
+				bird.health = bird.health + 50;
 			}
 				
 			if (data.AnalogRightX > 0.2f || data.AnalogRightX < -0.2f || data.AnalogRightY > 0.2f || data.AnalogRightY < -0.2f) 

@@ -16,9 +16,13 @@ namespace FlappyBird
 		private Bounds2 box;
 		public bool collected;
 		
-		public Pickup (float startX, float startY, Scene scene)
+		public Pickup (float startX, float startY, Scene scene, bool gun)
 		{
+			if (gun)
 			textureInfo  = new TextureInfo("/Application/textures/gun.png");
+			else
+			textureInfo  = new TextureInfo("/Application/textures/health.png");
+
 			sprite	 		= new SpriteUV();
 			sprite 			= new SpriteUV(textureInfo);	
 			sprite.Quad.S 	= textureInfo.TextureSizef;

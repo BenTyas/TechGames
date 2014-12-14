@@ -236,3 +236,5 @@ C:\Users\Smurf\Dropbox\TechGames\FlappyBird\FlappyBird\obj\Debug\app.exe
 C:\Users\Smurf\Dropbox\TechGames\FlappyBird\FlappyBird\obj\Debug\app.pdb
 C:\Users\Smurf\Dropbox\TechGames\FlappyBird\FlappyBird\bin\Debug\FlappyBird-unsigned\Application\textures\gun.png
 C:\Users\Smurf\Dropbox\TechGames\FlappyBird\FlappyBird\bin\Debug\FlappyBird-signed\Application\textures\gun.png
+C:\Users\Smurf\Dropbox\TechGames\FlappyBird\FlappyBird\bin\Debug\FlappyBird-unsigned\Application\textures\health.png
+C:\Users\Smurf\Dropbox\TechGames\FlappyBird\FlappyBird\bin\Debug\FlappyBird-signed\Application\textures\health.png
