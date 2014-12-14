@@ -22,7 +22,7 @@ namespace FlappyBird
 		//private static Sce.PlayStation.HighLevel.GameEngine2D.Base.Camera2D camara;
 		private static Obstacle[]	obstacles;
 		private static Bird			bird;
-		private static List<Bullet> bullets;
+		private static Bullet bullet;
 		private static Background background;
 		private static Camera2D cam;
 		private static List<Enemy> enemies;
@@ -30,6 +30,10 @@ namespace FlappyBird
 		private static int atkDelay = 100;
 		private static Random rnd = new Random();
 		private static int numEnemies = 20;
+		private static Pickup machineGun;
+		private static int num;
+		private static bool mGun;
+		private static int mGunAmmo = 30;
 		
 		public static void Main (string[] args)
 		{
@@ -109,13 +113,8 @@ namespace FlappyBird
 			
 			bird = new Bird(gameScene);
 			
-			bullets = new List<Bullet>();
-			Bullet bullet = new Bullet(gameScene);
-			bullets.Add(bullet);
-			
-			
-			
-				
+			bullet = new Bullet(gameScene);
+			machineGun = new Pickup(-500, -500, gameScene);
 			enemies = new List<Enemy>();
 			for (int i = 0; i < numEnemies; i++)
 			{
@@ -154,44 +153,47 @@ namespace FlappyBird
 					bird.Right(true);
 						
 				if (Input2.GamePad0.R.Down)
-				{
-					
-					bullets[0].Shoot(bird.GetPos(), bird.getAngle());
-				}
+					bullet.Shoot(bird.GetPos(), bird.getAngle(), mGun);
+			
 				for (int i = enemies.Count - 1; i >= 0 ; i--)
 				{
 					enemies[i].Update(0.0f);
 					
 				}
-				for (int i = 0; i < bullets.Count; i++)
-				{
-					bullets[i].Update(0.0f);
-				}
+				
+				bullet.Update(0.0f);
 				bird.Update(0.0f);
 				background.Update(0.0f);
+				machineGun.Update(0.0f);
 				
 				for (int i = 0; i < enemies.Count; i++)
 				{
 					enemies[i].speed = 0.1f * (10 + score);
-					for (int a = 0; a < bullets.Count; a++)
+					if (Collision (bullet.GetBox(), enemies[i].GetBox()))
 					{
-						if (Collision(bullets[a].GetBox(), enemies[i].GetBox()))
+						if (!enemies[i].dead)
 						{
-							if (!enemies[i].dead)
+							num = rnd.Next(1, 10);
+							if (num == 3)
 							{
-								score = score + 1;
-								enemies[i].dead = true;
-								Enemy enemy1 = new Enemy(0, 0, gameScene);
-								enemy1.setPos();
-								enemies.Add(enemy1);
-								
-								Enemy enemy2 = new Enemy(0, 0, gameScene);
-								enemy2.setPos();
-								enemies.Add(enemy2);
+								machineGun.setPos(enemies[i].GetBox().Min.X,enemies[i].GetBox().Min.Y);
 							}
+							score = score + 1;
+							enemies[i].dead = true;
+							Enemy enemy1 = new Enemy(0, 0, gameScene);
+							enemy1.setPos();
+							enemies.Add(enemy1);
 							
+							Enemy enemy2 = new Enemy(0, 0, gameScene);
+							enemy2.setPos();
+							enemies.Add(enemy2);
+							mGunAmmo--;
+							if (mGunAmmo < 0)
+								mGun = false;
 						}
+						
 					}
+					
 					if ((Collision(enemies[i].GetBox(), bird.GetBox())) && atkDelay >= 100 && !enemies[i].dead)
 					{
 						atkDelay = 0;
@@ -206,6 +208,12 @@ namespace FlappyBird
 				}
 				
 			
+			if (Collision(bird.GetBox(), machineGun.GetBox()))
+			{
+					machineGun.pickedUp();
+					mGun = true;
+			}
+				
 			if (data.AnalogRightX > 0.2f || data.AnalogRightX < -0.2f || data.AnalogRightY > 0.2f || data.AnalogRightY < -0.2f) 
 			{
 				var angleInRadians = FMath.Atan2 (-data.AnalogRightX, -data.AnalogRightY);

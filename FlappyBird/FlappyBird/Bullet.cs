@@ -19,6 +19,7 @@ namespace FlappyBird
 		private Bounds2 box;
 		private Vector2 direction;
 		private Vector2 origin;
+		private int speed = 10;
 		
 		
 		
@@ -46,7 +47,7 @@ namespace FlappyBird
 		{			
 			if (shoot)
 			{
-				sprite.Position = new Vector2 (sprite.Position.X + direction.X*10f, sprite.Position.Y + direction.Y*10f);
+				sprite.Position = new Vector2 (sprite.Position.X + direction.X*speed, sprite.Position.Y + direction.Y*speed);
 				
 				if (Vector2.Distance(sprite.Position, origin) > 400)
 				{
@@ -64,10 +65,16 @@ namespace FlappyBird
 			
 		}	
 		
-		public void Shoot(Vector2 Pos, float angle)
+		public void Shoot(Vector2 Pos, float angle, bool mGun)
 		{
 			if (!shoot)
 			{
+				if (mGun)
+					speed = 40;
+				else
+					speed = 10;
+				
+				
 				sprite.Position = new Vector2 (Pos.X + 11, Pos.Y - 8);
 				origin = Pos;
 				direction = Vector2FromAngle(angle - 44f, true);
