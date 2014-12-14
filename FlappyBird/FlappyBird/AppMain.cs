@@ -176,28 +176,26 @@ namespace FlappyBird
 				
 				for (int i = 0; i < enemies.Count; i++)
 				{
-					enemies[i].speed = 0.1f * (10 + score);
-					if (Collision (bullet.GetBox(), enemies[i].GetBox()))
+					enemies[i].speed = 0.1f * (10 + (score/2));
+					if (Collision (bullet.GetBox(), enemies[i].GetBox()) && !enemies[i].dead)
 					{
-						if (!enemies[i].dead)
+						num = rnd.Next(1, 10);
+						if (num == 3)
 						{
-							num = rnd.Next(1, 10);
-							if (num == 3)
-							{
-								machineGun.setPos(enemies[i].GetBox().Min.X,enemies[i].GetBox().Min.Y);
-								machineGun.setVis();
-							}
-							score = score + 1;
-							enemies[i].dead = true;
-							Enemy enemy1 = new Enemy(0, 0, gameScene);
-							enemy1.setPos();
-							enemies.Add(enemy1);
-							
-							Enemy enemy2 = new Enemy(0, 0, gameScene);
-							enemy2.setPos();
-							enemies.Add(enemy2);
+							machineGun.setPos(enemies[i].GetBox().Min.X,enemies[i].GetBox().Min.Y);
+							machineGun.setVis();
 						}
+						score = score + 1;
+						enemies[i].dead = true;
+						Enemy enemy1 = new Enemy(0, 0, gameScene);
+						enemy1.setPos();
+						enemies.Add(enemy1);
 						
+						Enemy enemy2 = new Enemy(0, 0, gameScene);
+						enemy2.setPos();
+						enemies.Add(enemy2);
+						
+						bullet.stopShoot();
 					}
 					
 					if ((Collision(enemies[i].GetBox(), bird.GetBox())) && atkDelay >= 100 && !enemies[i].dead)

@@ -79,8 +79,7 @@ namespace FlappyBird
 					ammo = 0;
 					speed = 10;
 				}
-				
-				
+							
 				sprite.Position = new Vector2 (Pos.X + 11, Pos.Y - 8);
 				origin = Pos;
 				direction = Vector2FromAngle(angle - 44f, true);
@@ -100,6 +99,12 @@ namespace FlappyBird
 		    if (vector != Vector2.Zero && normalize) //Basic math to find out the vector from the angle
 		        vector.Normalize();
 		    return vector;
+		}
+		
+		public void stopShoot()
+		{
+			shoot = false;
+			sprite.Visible = false;
 		}
 	}
 }
